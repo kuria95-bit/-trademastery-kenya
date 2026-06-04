@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TradeMastery Kenya — Forex Education</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --gold:#C9A84C;--gold-dark:#8B6914;--gold-pale:#F5E6B8;
+  --navy:#090F2E;--navy2:#101A45;--navy3:#172260;
+  --green:#16a34a;--green-l:#D4F0E4;
+  --red:#dc2626;--red-l:#FDEAEA;
+  --white:#F8F8F4;--muted:#7A80A0;
+  --border:rgba(201,168,76,0.18);--cardbg:rgba(255,255,255,0.035);
+}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--white);line-height:1.65;overflow-x:hidden;}
+h1,h2,h3,h4{font-family:'Playfair Display',serif;line-height:1.2;}
+a{text-decoration:none;}
+
+/* TICKER */
+.ticker{background:rgba(201,168,76,0.09);border-bottom:1px solid var(--border);padding:0.45rem 0;overflow:hidden;}
+.ticker-track{display:flex;gap:2.5rem;width:max-content;animation:tick 30s linear infinite;}
+.ticker-item{display:flex;align-items:center;gap:6px;font-size:0.78rem;white-space:nowrap;}
+.sym{color:var(--white);font-weight:600;}
+.up{color:#27c07a;}.dn{color:#f87171;}
+@keyframes tick{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:200;background:rgba(9,15,46,0.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:0.9rem 5vw;display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+.logo{font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:900;color:var(--gold);white-space:nowrap;}
+.logo em{color:var(--white);font-style:normal;}
+.nav-links{display:flex;gap:1.75rem;list-style:none;}
+.nav-links a{color:var(--muted);font-size:0.875rem;transition:color 0.2s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-wa{display:inline-flex;align-items:center;gap:7px;background:#25D366;color:#fff;font-weight:600;font-size:0.875rem;padding:0.5rem 1.1rem;border-radius:7px;white-space:nowrap;transition:opacity 0.2s;}
+.nav-wa:hover{opacity:0.85;}
+
+/* HERO */
+.hero{position:relative;display:flex;flex-direction:column;justify-content:center;overflow:hidden;}
+.hero-content{position:relative;z-index:1;padding:5rem 5vw 3rem;text-align:center;}
+.hero-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,0.15);border:1px solid var(--border);color:var(--gold);font-size:0.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:0.3rem 1rem;border-radius:100px;margin-bottom:1.6rem;}
+.hero h1{font-size:clamp(2.8rem,7vw,5.2rem);font-weight:900;max-width:860px;margin:0 auto 1.25rem;text-shadow:0 2px 30px rgba(0,0,0,0.5);}
+.hero h1 em{font-style:normal;color:var(--gold);}
+.hero-sub{font-size:1.1rem;color:rgba(248,248,244,0.72);max-width:520px;margin:0 auto 2.5rem;font-weight:300;}
+.hero-ctas{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+.btn-wa{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#fff;font-weight:700;font-size:1rem;padding:0.85rem 2rem;border-radius:9px;transition:transform 0.2s,opacity 0.2s;}
+.btn-wa:hover{transform:translateY(-2px);opacity:0.88;}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.08);color:var(--white);font-weight:500;font-size:1rem;padding:0.85rem 2rem;border-radius:9px;border:1px solid rgba(255,255,255,0.2);transition:border-color 0.2s,color 0.2s;}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);}
+
+/* FLOATING CHART CARDS */
+.chart-cards-row{position:relative;z-index:2;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;max-width:860px;margin:2.5rem auto 0;padding:0 5vw;}
+.chart-card{background:rgba(11,22,66,0.82);border:1px solid rgba(201,168,76,0.25);border-radius:12px;padding:12px 16px;backdrop-filter:blur(10px);}
+.cc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.cc-pair{font-size:0.82rem;font-weight:600;color:var(--white);}
+.cc-change{font-size:0.72rem;font-weight:600;padding:2px 7px;border-radius:100px;}
+.cc-up{background:rgba(22,163,74,0.2);color:#4ade80;}
+.cc-dn{background:rgba(220,38,38,0.2);color:#f87171;}
+.cc-price{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;margin-bottom:4px;}
+.cc-price.up{color:#4ade80;}.cc-price.dn{color:#f87171;}
+.cc-sparkline{width:100%;height:44px;display:block;}
+
+/* HERO BOTTOM STATS */
+.hero-stats-bar{position:relative;z-index:2;display:flex;justify-content:center;gap:3rem;flex-wrap:wrap;padding:2rem 5vw 2.5rem;border-top:1px solid rgba(201,168,76,0.15);}
+.hstat-num{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;color:var(--gold);}
+.hstat-lbl{font-size:0.8rem;color:var(--muted);margin-top:1px;}
+
+/* DISCLAIMER */
+.disclaimer-wrap{padding:0 5vw 3rem;}
+.disclaimer{background:rgba(201,168,76,0.07);border:1px solid var(--border);border-radius:10px;padding:0.9rem 1.5rem;max-width:900px;margin:0 auto;font-size:0.78rem;color:var(--muted);text-align:center;line-height:1.7;}
+.disclaimer strong{color:var(--gold);}
+
+/* SECTIONS */
+.section{padding:5rem 5vw;}
+.sec-label{font-size:0.72rem;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:2px;margin-bottom:0.7rem;}
+.sec-title{font-size:clamp(1.8rem,4vw,2.75rem);font-weight:700;margin-bottom:0.9rem;}
+.sec-sub{color:var(--muted);font-size:0.975rem;max-width:540px;font-weight:300;}
+.center{text-align:center;}.center .sec-sub{margin:0 auto;}
+.alt{background:rgba(255,255,255,0.022);}
+
+/* CHART SHOWCASE SECTION */
+.chart-showcase{padding:5rem 5vw;}
+.chart-showcase-inner{max-width:1000px;margin:0 auto;}
+.main-chart-wrap{background:rgba(11,22,66,0.7);border:1px solid rgba(201,168,76,0.22);border-radius:14px;overflow:hidden;margin-bottom:14px;}
+.chart-panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid rgba(201,168,76,0.12);}
+.cph-left{display:flex;align-items:center;gap:10px;}
+.cph-pair{font-size:0.95rem;font-weight:600;color:var(--white);}
+.cph-price{font-size:0.95rem;font-weight:600;}
+.cph-chg{font-size:0.75rem;padding:2px 8px;border-radius:100px;}
+.ch-up{color:#4ade80;}.ch-dn{color:#f87171;}
+.chg-up-bg{background:rgba(22,163,74,0.18);color:#4ade80;}
+.chg-dn-bg{background:rgba(220,38,38,0.18);color:#f87171;}
+.tfs{display:flex;gap:5px;}
+.tf{font-size:0.72rem;padding:3px 9px;border-radius:6px;border:1px solid rgba(255,255,255,0.12);color:var(--muted);cursor:pointer;transition:all 0.15s;}
+.tf.on{background:rgba(201,168,76,0.2);color:var(--gold);border-color:rgba(201,168,76,0.3);}
+.chart-body{padding:10px 14px 6px;}
+.chart-legend{display:flex;gap:14px;padding:6px 18px 10px;flex-wrap:wrap;}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:0.72rem;color:var(--muted);}
+.leg-line{width:18px;height:2px;border-radius:2px;}
+.leg-box{width:14px;height:10px;border-radius:2px;}
+.ohlc-row{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(255,255,255,0.06);}
+.ohlc-cell{padding:10px 16px;border-right:1px solid rgba(255,255,255,0.06);}
+.ohlc-cell:last-child{border-right:none;}
+.ohlc-lbl{font-size:0.7rem;color:var(--muted);margin-bottom:2px;}
+.ohlc-val{font-size:0.82rem;font-weight:500;}
+.mini-charts-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px;}
+.mini-chart-card{background:rgba(11,22,66,0.7);border:1px solid rgba(201,168,76,0.22);border-radius:12px;overflow:hidden;}
+.vol-bar-card{background:rgba(11,22,66,0.7);border:1px solid rgba(201,168,76,0.22);border-radius:12px;overflow:hidden;}
+.label-tag{display:inline-flex;align-items:center;gap:5px;font-size:0.7rem;color:var(--muted);background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:100px;padding:2px 9px;}
+
+/* WHY CARDS */
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.1rem;margin-top:3rem;max-width:1000px;margin-left:auto;margin-right:auto;}
+.why-card{background:var(--cardbg);border:1px solid var(--border);border-radius:12px;padding:1.5rem;}
+.why-icon{font-size:1.6rem;color:var(--gold);margin-bottom:0.9rem;display:block;}
+.why-title{font-size:0.975rem;font-weight:600;color:var(--white);margin-bottom:0.4rem;}
+.why-desc{font-size:0.845rem;color:var(--muted);line-height:1.6;}
+
+/* HOW */
+.flow-list{display:flex;flex-direction:column;gap:0.9rem;max-width:680px;margin:3rem auto 0;}
+.flow-item{display:flex;gap:1rem;align-items:flex-start;background:var(--cardbg);border:1px solid var(--border);border-radius:10px;padding:1rem 1.25rem;}
+.flow-n{width:28px;height:28px;border-radius:50%;background:rgba(201,168,76,0.18);color:var(--gold);font-size:0.8rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.flow-t{font-size:0.9rem;font-weight:600;color:var(--white);margin-bottom:3px;}
+.flow-d{font-size:0.82rem;color:var(--muted);line-height:1.55;}
+
+/* CURRICULUM */
+.curr-tabs{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:2.5rem auto 0;max-width:700px;}
+.ctab{padding:0.45rem 1.1rem;border-radius:100px;font-size:0.845rem;font-weight:500;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all 0.18s;}
+.ctab.on{background:var(--gold);color:var(--navy);border-color:var(--gold);font-weight:700;}
+.curr-body{max-width:720px;margin:1.5rem auto 0;border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.cpanel{display:none;}.cpanel.on{display:block;}
+.cweek{display:flex;align-items:flex-start;gap:1rem;padding:0.95rem 1.25rem;border-bottom:1px solid var(--border);transition:background 0.18s;}
+.cweek:last-child{border-bottom:none;}
+.cweek:hover{background:rgba(255,255,255,0.03);}
+.cw-num{font-size:0.7rem;font-weight:700;color:var(--gold);min-width:30px;padding-top:2px;}
+.cw-body{flex:1;}
+.cw-title{font-size:0.9rem;font-weight:600;color:var(--white);}
+.cw-desc{font-size:0.8rem;color:var(--muted);margin-top:2px;line-height:1.5;}
+.cw-tag{display:inline-flex;align-items:center;gap:4px;font-size:0.7rem;padding:2px 8px;border-radius:100px;margin-top:5px;}
+.ct-pdf{background:rgba(201,168,76,0.15);color:var(--gold-dark);}
+.ct-live{background:var(--green-l);color:#0A6B48;}
+.ct-vid{background:rgba(55,138,221,0.15);color:#185FA5;}
+
+/* PRICING */
+.tiers-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.2rem;max-width:1040px;margin:3rem auto 0;}
+.tier{background:var(--cardbg);border:1px solid var(--border);border-radius:14px;padding:1.75rem;position:relative;transition:transform 0.25s,border-color 0.25s;}
+.tier:hover{transform:translateY(-4px);}
+.tier.hot{border-color:var(--gold);background:rgba(201,168,76,0.07);}
+.hot-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--navy);font-size:0.68rem;font-weight:700;padding:3px 14px;border-radius:100px;white-space:nowrap;letter-spacing:0.5px;text-transform:uppercase;}
+.tier-level{font-size:0.68rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:2px;margin-bottom:0.4rem;}
+.tier-name{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--white);margin-bottom:0.75rem;}
+.tier-price{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;color:var(--gold);}
+.tier-period{font-size:0.8rem;color:var(--muted);}
+.tier-usd{font-size:0.75rem;color:var(--muted);margin-bottom:1.1rem;}
+.tier-hr{border:none;border-top:1px solid var(--border);margin:1.1rem 0;}
+.feat{list-style:none;display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1.6rem;}
+.feat li{display:flex;align-items:flex-start;gap:7px;font-size:0.845rem;color:var(--muted);}
+.feat li i.ok{color:var(--green);font-size:0.95rem;margin-top:2px;flex-shrink:0;}
+.feat li i.no{color:var(--red);font-size:0.95rem;margin-top:2px;flex-shrink:0;}
+.tier-btn{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;padding:0.7rem;border-radius:8px;font-weight:600;font-size:0.925rem;background:#25D366;color:#fff;border:none;cursor:pointer;transition:opacity 0.2s;}
+.tier-btn a{color:#fff;display:flex;align-items:center;gap:7px;width:100%;justify-content:center;}
+.tier-btn:hover{opacity:0.85;}
+
+/* RECRUIT */
+.rec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1.1rem;max-width:950px;margin:3rem auto 0;}
+.rec-card{background:var(--cardbg);border:1px solid var(--border);border-radius:12px;padding:1.4rem;}
+.rec-icon{font-size:1.5rem;color:var(--gold);margin-bottom:0.75rem;display:block;}
+.rec-t{font-size:0.9rem;font-weight:600;color:var(--white);margin-bottom:0.35rem;}
+.rec-d{font-size:0.82rem;color:var(--muted);line-height:1.55;}
+
+/* SCHEDULE */
+.sched{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;max-width:900px;margin:3rem auto 0;}
+.day{background:var(--cardbg);border:1px solid var(--border);border-radius:10px;padding:0.85rem;}
+.day-n{font-size:0.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px;}
+.day-t{font-size:0.8rem;color:var(--white);line-height:1.4;}
+.day-badge{display:inline-block;font-size:0.65rem;font-weight:600;padding:2px 7px;border-radius:100px;margin-top:5px;}
+.db-lesson{background:rgba(55,138,221,0.15);color:#60a5fa;}
+.db-live{background:rgba(22,163,74,0.15);color:#4ade80;}
+.db-qa{background:rgba(201,168,76,0.15);color:var(--gold);}
+.db-prep{background:rgba(255,255,255,0.07);color:var(--muted);}
+
+/* TESTIMONIALS */
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.1rem;max-width:900px;margin:3rem auto 0;}
+.testi{background:var(--cardbg);border:1px solid var(--border);border-radius:12px;padding:1.5rem;}
+.stars{color:var(--gold);font-size:0.85rem;margin-bottom:0.7rem;}
+.testi-text{font-size:0.865rem;color:var(--muted);line-height:1.7;font-style:italic;margin-bottom:1.1rem;}
+.testi-auth{display:flex;align-items:center;gap:9px;}
+.avatar{width:34px;height:34px;border-radius:50%;background:rgba(201,168,76,0.18);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--gold);flex-shrink:0;}
+.auth-name{font-size:0.85rem;font-weight:600;color:var(--white);}
+.auth-loc{font-size:0.72rem;color:var(--muted);}
+
+/* TOOLS */
+.tools-row{display:flex;flex-wrap:wrap;gap:0.7rem;justify-content:center;margin-top:2rem;}
+.tool-pill{display:inline-flex;align-items:center;gap:6px;background:var(--cardbg);border:1px solid var(--border);border-radius:100px;padding:0.4rem 1rem;font-size:0.82rem;color:var(--muted);}
+.tool-pill i{color:var(--gold);font-size:0.9rem;}
+
+/* CTA */
+.cta-sec{padding:6rem 5vw;text-align:center;background:radial-gradient(ellipse 60% 70% at 50% 100%,rgba(201,168,76,0.1) 0%,transparent 65%);}
+.cta-sec h2{font-size:clamp(2rem,5vw,3.4rem);margin-bottom:1rem;}
+.cta-sec p{color:var(--muted);max-width:460px;margin:0 auto 2.5rem;}
+.wa-big{display:inline-flex;align-items:center;gap:10px;background:#25D366;color:#fff;font-weight:700;font-size:1.1rem;padding:1rem 2.5rem;border-radius:10px;transition:transform 0.2s,opacity 0.2s;}
+.wa-big:hover{transform:translateY(-3px);opacity:0.88;}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:2.25rem 5vw;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:0.78rem;color:var(--muted);}
+.foot-legal{max-width:500px;line-height:1.55;}
+
+@media(max-width:640px){
+  .nav-links{display:none;}
+  nav{padding:0.9rem 1rem;}
+  .hero-content{padding:3.5rem 1rem 2rem;}
+  .section{padding:3.5rem 1rem;}
+  .chart-cards-row{grid-template-columns:1fr 1fr;}
+  .hero-stats-bar{gap:1.5rem;padding:1.5rem 1rem;}
+  .mini-charts-row{grid-template-columns:1fr;}
+  .ohlc-row{grid-template-columns:repeat(2,1fr);}
+  footer{flex-direction:column;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <div class="ticker-item"><span class="sym">EUR/USD</span><span class="up">1.0842 +0.12%</span></div>
+    <div class="ticker-item"><span class="sym">GBP/USD</span><span class="dn">1.2631 -0.08%</span></div>
+    <div class="ticker-item"><span class="sym">USD/KES</span><span class="up">129.40 +0.30%</span></div>
+    <div class="ticker-item"><span class="sym">XAU/USD</span><span class="up">2,318 +0.94%</span></div>
+    <div class="ticker-item"><span class="sym">BTC/USD</span><span class="up">67,420 +2.10%</span></div>
+    <div class="ticker-item"><span class="sym">SAFCOM</span><span class="up">16.80 +1.40%</span></div>
+    <div class="ticker-item"><span class="sym">USD/JPY</span><span class="dn">154.32 -0.20%</span></div>
+    <div class="ticker-item"><span class="sym">EABL</span><span class="up">148.50 +2.00%</span></div>
+    <div class="ticker-item"><span class="sym">EUR/USD</span><span class="up">1.0842 +0.12%</span></div>
+    <div class="ticker-item"><span class="sym">GBP/USD</span><span class="dn">1.2631 -0.08%</span></div>
+    <div class="ticker-item"><span class="sym">USD/KES</span><span class="up">129.40 +0.30%</span></div>
+    <div class="ticker-item"><span class="sym">XAU/USD</span><span class="up">2,318 +0.94%</span></div>
+    <div class="ticker-item"><span class="sym">BTC/USD</span><span class="up">67,420 +2.10%</span></div>
+    <div class="ticker-item"><span class="sym">SAFCOM</span><span class="up">16.80 +1.40%</span></div>
+    <div class="ticker-item"><span class="sym">USD/JPY</span><span class="dn">154.32 -0.20%</span></div>
+    <div class="ticker-item"><span class="sym">EABL</span><span class="up">148.50 +2.00%</span></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Trade<em>Mastery</em></div>
+  <ul class="nav-links">
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#charts">Charts</a></li>
+    <li><a href="#curriculum">Curriculum</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+  </ul>
+  <a href="https://wa.me/254734447870?text=Hello!%20I%20want%20to%20join%20TradeMastery%20Kenya." class="nav-wa" target="_blank">
+    <i class="ti ti-brand-whatsapp"></i> Enrol via WhatsApp
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+
+  <div class="hero-content">
+    <div class="hero-pill"><i class="ti ti-flame" style="font-size:0.85rem"></i> Kenya's Forex School — 100% Digital</div>
+    <h1>Stop Guessing.<br><em>Start Trading Right.</em></h1>
+    <p class="hero-sub">Practical forex education built for Kenyans. Lessons delivered straight to your phone. Start for just <strong style="color:var(--gold)">Ksh 1,500.</strong></p>
+    <div class="hero-ctas">
+      <a href="https://wa.me/254734447870?text=Hello!%20I%20want%20to%20join%20the%20Beginner%20Bootcamp%20at%20Ksh%201%2C500." class="btn-wa" target="_blank">
+        <i class="ti ti-brand-whatsapp"></i> Join for Ksh 1,500
+      </a>
+      <a href="#charts" class="btn-ghost">
+        <i class="ti ti-chart-candle"></i> See live charts
+      </a>
+    </div>
+  </div>
+
+  <!-- Stats bar -->
+  <div class="hero-stats-bar">
+    <div><div class="hstat-num">2,400+</div><div class="hstat-lbl">Active students</div></div>
+    <div><div class="hstat-num">8 weeks</div><div class="hstat-lbl">Beginner course</div></div>
+    <div><div class="hstat-num">4 tiers</div><div class="hstat-lbl">Beginner to mastery</div></div>
+    <div><div class="hstat-num">Ksh 1,500</div><div class="hstat-lbl">Entry price</div></div>
+  </div>
+</section>
+
+<!-- CHART SHOWCASE SECTION -->
+<section class="chart-showcase alt" id="charts">
+  <div class="chart-showcase-inner">
+    <div class="center" style="margin-bottom:2.5rem;">
+      <div class="sec-label">Live charts</div>
+      <h2 class="sec-title">This is what you'll learn to read</h2>
+      <p class="sec-sub">Candlestick patterns, moving averages, support zones, volume — we teach you to see the story in every chart.</p>
+    </div>
+
+    <!-- MAIN CANDLESTICK CHART -->
+    <div class="main-chart-wrap">
+      <div class="chart-panel-hdr">
+        <div class="cph-left">
+          <span class="cph-pair">EUR/USD</span>
+          <span class="cph-price ch-up" id="main-price">1.0842</span>
+          <span class="cph-chg chg-up-bg" id="main-chg">+0.12%</span>
+          <span class="label-tag"><i class="ti ti-circle-filled" style="font-size:8px;color:#4ade80;"></i>Live demo</span>
+        </div>
+        <div class="tfs">
+          <span class="tf on">M5</span><span class="tf">H1</span><span class="tf">H4</span><span class="tf">D1</span>
+        </div>
+      </div>
+      <div class="chart-body">
+        <canvas id="mainChart" height="230" style="width:100%;height:230px;display:block;"></canvas>
+      </div>
+      <div class="chart-legend">
+        <div class="leg-item"><div class="leg-box" style="background:rgba(74,222,128,0.7);"></div>Bullish candle</div>
+        <div class="leg-item"><div class="leg-box" style="background:rgba(248,113,113,0.7);"></div>Bearish candle</div>
+        <div class="leg-item"><div class="leg-line" style="background:#60a5fa;"></div>EMA 20</div>
+        <div class="leg-item"><div class="leg-line" style="background:#fbbf24;"></div>EMA 50</div>
+        <div class="leg-item"><div class="leg-box" style="background:rgba(96,165,250,0.15);border:1px solid rgba(96,165,250,0.4);"></div>Support zone</div>
+      </div>
+      <div class="ohlc-row">
+        <div class="ohlc-cell"><div class="ohlc-lbl">Open</div><div class="ohlc-val">1.0829</div></div>
+        <div class="ohlc-cell"><div class="ohlc-lbl">High</div><div class="ohlc-val" style="color:#4ade80;">1.0861</div></div>
+        <div class="ohlc-cell"><div class="ohlc-lbl">Low</div><div class="ohlc-val" style="color:#f87171;">1.0814</div></div>
+        <div class="ohlc-cell"><div class="ohlc-lbl">Volume</div><div class="ohlc-val">84.2K</div></div>
+      </div>
+    </div>
+
+    <!-- THREE MINI CHARTS -->
+    <div class="mini-charts-row">
+      <div class="mini-chart-card">
+        <div class="chart-panel-hdr" style="padding:9px 14px;">
+          <span class="cph-pair" style="font-size:0.82rem;">GBP/USD</span>
+          <span class="cph-price ch-dn" style="font-size:0.82rem;">1.2631</span>
+          <span class="cph-chg chg-dn-bg" style="font-size:0.7rem;">-0.08%</span>
+        </div>
+        <div class="chart-body" style="padding:6px 10px 4px;">
+          <canvas id="gbpChart" height="100" style="width:100%;height:100px;display:block;"></canvas>
+        </div>
+      </div>
+      <div class="mini-chart-card">
+        <div class="chart-panel-hdr" style="padding:9px 14px;">
+          <span class="cph-pair" style="font-size:0.82rem;">XAU/USD</span>
+          <span class="cph-price ch-up" style="font-size:0.82rem;">2,318.40</span>
+          <span class="cph-chg chg-up-bg" style="font-size:0.7rem;">+0.94%</span>
+        </div>
+        <div class="chart-body" style="padding:6px 10px 4px;">
+          <canvas id="xauChart" height="100" style="width:100%;height:100px;display:block;"></canvas>
+        </div>
+      </div>
+      <div class="mini-chart-card">
+        <div class="chart-panel-hdr" style="padding:9px 14px;">
+          <span class="cph-pair" style="font-size:0.82rem;">USD/KES</span>
+          <span class="cph-price ch-up" style="font-size:0.82rem;">129.40</span>
+          <span class="cph-chg chg-up-bg" style="font-size:0.7rem;">+0.30%</span>
+        </div>
+        <div class="chart-body" style="padding:6px 10px 4px;">
+          <canvas id="kesChart" height="100" style="width:100%;height:100px;display:block;"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- VOLUME BAR CHART -->
+    <div class="vol-bar-card">
+      <div class="chart-panel-hdr">
+        <span class="cph-pair">Volume — EUR/USD</span>
+        <span style="font-size:0.72rem;color:var(--muted);">Last 24 sessions</span>
+      </div>
+      <div class="chart-body">
+        <canvas id="volChart" height="80" style="width:100%;height:80px;display:block;"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="section" id="why">
+  <div class="center">
+    <div class="sec-label">Why TradeMastery</div>
+    <h2 class="sec-title">Built different — for Kenyans</h2>
+    <p class="sec-sub">Not another YouTube channel. A structured school that delivers lessons to your phone and pushes you level by level.</p>
+  </div>
+  <div class="why-grid">
+    <div class="why-card"><i class="ti ti-device-mobile why-icon"></i><div class="why-title">100% on your phone</div><div class="why-desc">PDF notes, voice recaps, and recorded live sessions via WhatsApp and Telegram. Study any time, anywhere in Kenya.</div></div>
+    <div class="why-card"><i class="ti ti-currency-dollar why-icon"></i><div class="why-title">Genuinely affordable</div><div class="why-desc">Starting at Ksh 1,500 because we know that is real money. No hidden fees. Pay via M-Pesa in 30 seconds.</div></div>
+    <div class="why-card"><i class="ti ti-map-pin why-icon"></i><div class="why-title">Kenya-focused content</div><div class="why-desc">Broker guides with M-Pesa deposits. Safaricom, EABL and NSE examples. Content that actually applies here.</div></div>
+    <div class="why-card"><i class="ti ti-users why-icon"></i><div class="why-title">Community-driven</div><div class="why-desc">Private WhatsApp groups by tier. Ask questions, share charts, hold each other accountable. No one left behind.</div></div>
+    <div class="why-card"><i class="ti ti-chart-candle why-icon"></i><div class="why-title">Practical, not theoretical</div><div class="why-desc">Every lesson ends with a real exercise. By Week 7 you place your first trade. We measure progress, not just content.</div></div>
+    <div class="why-card"><i class="ti ti-award why-icon"></i><div class="why-title">Clear path to mastery</div><div class="why-desc">4 tiers with a structured upgrade path. We tell you exactly when you're ready to move up — no guessing.</div></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section alt" id="how">
+  <div class="center">
+    <div class="sec-label">How it works</div>
+    <h2 class="sec-title">Simple. Straight to your phone.</h2>
+    <p class="sec-sub">No app to download, no laptop needed. Everything runs on WhatsApp and Telegram.</p>
+  </div>
+  <div class="flow-list">
+    <div class="flow-item"><div class="flow-n">1</div><div><div class="flow-t">Pay Ksh 1,500 via M-Pesa → get added to your group</div><div class="flow-d">Send your M-Pesa payment and WhatsApp us your name and receipt. We add you to your tier's private group within 1 hour.</div></div></div>
+    <div class="flow-item"><div class="flow-n">2</div><div><div class="flow-t">Receive PDF lesson notes 3 times a week</div><div class="flow-d">Monday, Wednesday, Friday — one lesson PDF each day. 4–8 pages, clear language, real chart examples, and a short exercise.</div></div></div>
+    <div class="flow-item"><div class="flow-n">3</div><div><div class="flow-t">Listen to a voice note recap (3–4 mins) same day</div><div class="flow-d">Perfect for commuting on matatu. A simple voice note summarising each lesson sent straight to your WhatsApp group.</div></div></div>
+    <div class="flow-item"><div class="flow-n">4</div><div><div class="flow-t">Friday 7pm — live trading session (Zoom, recorded)</div><div class="flow-d">We share our screen, walk through a live chart, answer your questions. Can't make it? The replay is sent every Friday night.</div></div></div>
+    <div class="flow-item"><div class="flow-n">5</div><div><div class="flow-t">Sunday quiz — 5 questions posted in the group</div><div class="flow-d">Five multiple-choice questions on the week's topics. Results and explanations posted Monday morning.</div></div></div>
+    <div class="flow-item"><div class="flow-n">6</div><div><div class="flow-t">Graduate and upgrade to the next tier when ready</div><div class="flow-d">After completing your tier we assess your progress and tell you honestly when you're ready to move up to Intermediate, Pro, or Mastery.</div></div></div>
+  </div>
+</section>
+
+<!-- CURRICULUM -->
+<section class="section" id="curriculum">
+  <div class="center">
+    <div class="sec-label">Curriculum</div>
+    <h2 class="sec-title">What you will learn</h2>
+    <p class="sec-sub">Every lesson is structured, practical, and relevant to Kenyan traders. No filler.</p>
+  </div>
+  <div class="curr-tabs">
+    <button class="ctab on" onclick="switchCurr('b',this)">Beginner — 8 weeks</button>
+    <button class="ctab" onclick="switchCurr('i',this)">Intermediate</button>
+    <button class="ctab" onclick="switchCurr('p',this)">Pro trader</button>
+    <button class="ctab" onclick="switchCurr('m',this)">Mastery</button>
+  </div>
+  <div class="curr-body">
+    <div class="cpanel on" id="cp-b">
+      <div class="cweek"><span class="cw-num">Wk 1</span><div class="cw-body"><div class="cw-title">What is forex? How the market works</div><div class="cw-desc">Currency pairs, who trades, why prices move, best brokers in Kenya with M-Pesa deposits (Exness, XM, HFM)</div><span class="cw-tag ct-pdf"><i class="ti ti-file-text" style="font-size:10px"></i> PDF + voice note</span></div></div>
+      <div class="cweek"><span class="cw-num">Wk 2</span><div class="cw-body"><div class="cw-title">Setting up your demo account on MT4/MT5</div><div class="cw-desc">Step-by-step broker registration, downloading MT4/MT5, placing your very first demo trade with screenshots</div><span class="cw-tag ct-vid"><i class="ti ti-video" style="font-size:10px"></i> PDF + screen recording</span></div></div>
+      <div class="cweek"><span class="cw-num">Wk 3</span><div class="cw-body"><div class="cw-title">Reading candlestick charts — the language of price</div><div class="cw-desc">What candles mean, timeframes explained, the 5 most important patterns every beginner must know</div><span class="cw-tag ct-pdf"><i class="ti ti-file-text" style="font-size:10px"></i> PDF + voice note</span></div></div>
+      <div class="cweek"><span class="cw-num">Wk 4</span><div class="cw-body"><div class="cw-title">Support &amp; resistance — where price reacts</div><div class="cw-desc">Drawing key levels on EURUSD and GBPUSD live, identifying strong vs weak zones with real chart examples</div><span class="cw-tag ct-live"><i class="ti ti-brand-zoom" style="font-size:10px"></i> Live session (recorded)</span></div></div>
+      <div class="cweek"><span class="cw-num">Wk 5</span><div class="cw-body"><div class="cw-title">Risk management — the rule that keeps you in the game</div><div class="cw-desc">The 1% rule, stop loss &amp; take profit, risk:reward ratio with Ksh examples, position size calculator</div><span class="cw-tag ct-pdf"><i class="ti ti-file-text" style="font-size:10px"></i> PDF + voice note</span></div></div>
+      <div class="cweek"><span class="cw-num">Wk 6</span><div class="cw-body"><div class="cw-title">Trend trading — go with the market not against it</div><div class="cw-desc">Identifying uptrends and downtrends, using moving averages as filters, simple trend-following entry rules</div><span class="cw-tag ct-pdf"><i class="ti ti-file-text" style="font-size:10px"></i> PDF + voice note</span></div></div>
+      <div class="cweek"><span class="cw-num">Wk 7</span><div class="cw-body"><div class="cw-title">Your first real trade — entry checklist live</div><div class="cw-desc">Full entry-to-exit walkthrough on a live chart, managing open positions, what to do when it goes against you</div><span class="cw-tag ct-live"><i class="ti ti-brand-zoom" style="font-size:10px"></i> Live session (recorded)</span></div></div>
+      <div class="cweek"><span class="cw-num">Wk 8</span><div class="cw-body"><div class="cw-title">Trading psychology + your path forward</div><div class="cw-desc">Why most beginners blow accounts, building a trading routine, graduation assessment, upgrade to Intermediate</div><span class="cw-tag ct-pdf"><i class="ti ti-file-text" style="font-size:10px"></i> PDF + voice note</span></div></div>
+    </div>
+    <div class="cpanel" id="cp-i">
+      <div class="cweek"><span class="cw-num">Mod 1</span><div class="cw-body"><div class="cw-title">Smart money concepts — how institutions move price</div><div class="cw-desc">Order blocks, break of structure, change of character — the framework retail traders miss</div><span class="cw-tag ct-pdf"><i class="ti ti-file-text" style="font-size:10px"></i> PDF + voice note</span></div></div>
+      <div class="cweek"><span class="cw-num">Mod 2</span><div class="cw-body"><div class="cw-title">Supply &amp; demand zones — the professional approach</div><div class="cw-desc">Identifying high-probability zones, entering on retests, combining with S/R for confluence</div><span class="cw-tag ct-live"><i class="ti ti-brand-zoom" style="font-size:10px"></i> Live session</span></div></div>
+      <div class="cweek"><span class="cw-num">Mod 3</span><div class="cw-body"><div class="cw-title">Fibonacci retracements and extensions</div><div class="cw-desc">Drawing fib levels correctly, golden ratio entries, combining with S&amp;D zones for high-accuracy setups</div><span class="cw-tag ct-pdf"><i class="ti ti-file-text" style="font-size:10px"></i> PDF + voice note</span></div></div>
+      <div class="cweek"><span class="cw-num">Mod 4</span><div class="cw-body"><div class="cw-title">Forex news &amp; economic calendar</div><div class="cw-desc">Trading around NFP, CPI, interest rate decisions — how to avoid getting stopped out by news events</div><span class="cw-tag ct-pdf"><i class="ti ti-file-text" style="font-size:10px"></i> PDF + voice note</span></div></div>
+      <div class="cweek"><span class="cw-num">Mod 5</span><div class="cw-body"><div class="cw-title">Building your trading plan and trade journal</div><div class="cw-desc">Your personal trading rules, journaling every trade in a template, reviewing your performance monthly</div><span class="cw-tag ct-live"><i class="ti ti-brand-zoom" style="font-size:10px"></i> Live session</span></div></div>
+      <div class="cweek"><span class="cw-num">Mod 6</span><div class="cw-body"><div class="cw-title">Multi-timeframe analysis — the full picture</div><div class="cw-desc">Top-down analysis from daily to H1, aligning timeframes for high-probability confluences</div><span class="cw-tag ct-pdf"><i class="ti ti-file-text" style="font-size:10px"></i> PDF + voice note</span></div></div>
+    </div>
+    <div class="cpanel" id="cp-p">
+      <div class="cweek"><span class="cw-num">Mod 1</span><div class="cw-body"><div class="cw-title">Institutional order flow &amp; market maker models</div><div class="cw-desc">ICT concepts, liquidity grabs, how market makers hunt retail stop losses — and how to trade with them</div><span class="cw-tag ct-live"><i class="ti ti-brand-zoom" style="font-size:10px"></i> Live session</span></div></div>
+      <div class="cweek"><span class="cw-num">Mod 2</span><div class="cw-body"><div class="cw-title">Advanced risk &amp; portfolio management</div><div class="cw-desc">Drawdown limits, dynamic position sizing, correlations between pairs, protecting accounts in volatile markets</div><span class="cw-tag ct-pdf"><i class="ti ti-file-text" style="font-size:10px"></i> PDF + voice note</span></div></div>
+      <div class="cweek"><span class="cw-num">Mod 3</span><div class="cw-body"><div class="cw-title">Real-time trade alert analysis</div><div class="cw-desc">We share live setups in the Telegram channel. You analyse alongside us, post your thesis, get real feedback</div><span class="cw-tag ct-live"><i class="ti ti-brand-zoom" style="font-size:10px"></i> 2× weekly live</span></div></div>
+      <div class="cweek"><span class="cw-num">Mod 4</span><div class="cw-body"><div class="cw-title">Prop firm challenge preparation</div><div class="cw-desc">FTMO, The5ers, MyForexFunds — rules, strategy, mindset. How Kenyan traders are passing and earning dollars</div><span class="cw-tag ct-pdf"><i class="ti ti-file-text" style="font-size:10px"></i> PDF + voice note</span></div></div>
+    </div>
+    <div class="cpanel" id="cp-m">
+      <div class="cweek"><span class="cw-num">M1</span><div class="cw-body"><div class="cw-title">Weekly 1-on-1 mentorship call</div><div class="cw-desc">30-minute private session every week. We review your trades, correct your mistakes, build your personal strategy</div><span class="cw-tag ct-live"><i class="ti ti-brand-zoom" style="font-size:10px"></i> 1-on-1 weekly</span></div></div>
+      <div class="cweek"><span class="cw-num">M2</span><div class="cw-body"><div class="cw-title">Trade review &amp; journaling deep dive</div><div class="cw-desc">Submit your last 20 trades. We analyse patterns in your mistakes and give a written + voice feedback report</div><span class="cw-tag ct-pdf"><i class="ti ti-file-text" style="font-size:10px"></i> Written report</span></div></div>
+      <div class="cweek"><span class="cw-num">M3</span><div class="cw-body"><div class="cw-title">Custom strategy development</div><div class="cw-desc">Build a strategy that fits your personality, schedule and risk tolerance — backtested with you live</div><span class="cw-tag ct-live"><i class="ti ti-brand-zoom" style="font-size:10px"></i> Collaborative session</span></div></div>
+      <div class="cweek"><span class="cw-num">M4</span><div class="cw-body"><div class="cw-title">TradeMastery Certification</div><div class="cw-desc">On completion — a certificate you can present to prop firms, employers, and trading communities as proof of skill</div><span class="cw-tag ct-pdf"><i class="ti ti-award" style="font-size:10px"></i> Certificate issued</span></div></div>
+    </div>
+  </div>
+  <p style="text-align:center;margin-top:1rem;font-size:0.8rem;color:var(--muted);">Each beginner week = 2 PDFs + 1 voice note + Sunday quiz. Live sessions replace one PDF in weeks 4 and 7. All sessions recorded and shared.</p>
+</section>
+
+<!-- PRICING -->
+<section class="section alt" id="pricing">
+  <div class="center">
+    <div class="sec-label">Pricing</div>
+    <h2 class="sec-title">Affordable for every Kenyan</h2>
+    <p class="sec-sub">Pay via M-Pesa — Paybill or send money. Group access confirmed within 1 hour.</p>
+  </div>
+  <div class="tiers-grid">
+    <div class="tier hot">
+      <div class="hot-badge">Start here</div>
+      <div class="tier-level">Tier 1</div>
+      <div class="tier-name">Beginner Bootcamp</div>
+      <div style="display:flex;align-items:baseline;gap:4px;"><span class="tier-price">1,500</span><span class="tier-period"> Ksh/month</span></div>
+      <div class="tier-usd">≈ $11.50 USD &nbsp;·&nbsp; or Ksh 12,000/year</div>
+      <hr class="tier-hr">
+      <ul class="feat">
+        <li><i class="ti ti-check ok"></i>8-week structured curriculum</li>
+        <li><i class="ti ti-check ok"></i>3 PDF lesson notes per week</li>
+        <li><i class="ti ti-check ok"></i>Voice note recap each lesson</li>
+        <li><i class="ti ti-check ok"></i>Weekly live session (recorded)</li>
+        <li><i class="ti ti-check ok"></i>Sunday quiz &amp; answers</li>
+        <li><i class="ti ti-check ok"></i>Private WhatsApp group</li>
+        <li><i class="ti ti-check ok"></i>Demo account setup guide</li>
+        <li><i class="ti ti-x no"></i>No 1-on-1 mentorship</li>
+      </ul>
+      <div class="tier-btn"><a href="https://wa.me/254734447870?text=Hello!%20I%20want%20to%20join%20the%20Beginner%20Bootcamp%20at%20Ksh%201%2C500%2Fmonth." target="_blank"><i class="ti ti-brand-whatsapp"></i> Enrol via WhatsApp</a></div>
+    </div>
+    <div class="tier">
+      <div class="tier-level">Tier 2</div>
+      <div class="tier-name">Chart Analyst</div>
+      <div style="display:flex;align-items:baseline;gap:4px;"><span class="tier-price">3,000</span><span class="tier-period"> Ksh/month</span></div>
+      <div class="tier-usd">≈ $23 USD &nbsp;·&nbsp; or Ksh 30,000/year</div>
+      <hr class="tier-hr">
+      <ul class="feat">
+        <li><i class="ti ti-check ok"></i>Everything in Beginner</li>
+        <li><i class="ti ti-check ok"></i>SMC &amp; advanced price action</li>
+        <li><i class="ti ti-check ok"></i>2 live sessions per week</li>
+        <li><i class="ti ti-check ok"></i>Private Telegram channel</li>
+        <li><i class="ti ti-check ok"></i>Trade journal template</li>
+        <li><i class="ti ti-check ok"></i>Daily market commentary</li>
+        <li><i class="ti ti-check ok"></i>Fibonacci &amp; multi-TF analysis</li>
+        <li><i class="ti ti-x no"></i>No 1-on-1 mentorship</li>
+      </ul>
+      <div class="tier-btn"><a href="https://wa.me/254734447870?text=Hello!%20I%20want%20to%20join%20the%20Chart%20Analyst%20tier%20at%20Ksh%203%2C000%2Fmonth." target="_blank"><i class="ti ti-brand-whatsapp"></i> Enrol via WhatsApp</a></div>
+    </div>
+    <div class="tier">
+      <div class="tier-level">Tier 3</div>
+      <div class="tier-name">Pro Trader</div>
+      <div style="display:flex;align-items:baseline;gap:4px;"><span class="tier-price">5,000</span><span class="tier-period"> Ksh/month</span></div>
+      <div class="tier-usd">≈ $38 USD &nbsp;·&nbsp; or Ksh 50,000/year</div>
+      <hr class="tier-hr">
+      <ul class="feat">
+        <li><i class="ti ti-check ok"></i>Everything in Intermediate</li>
+        <li><i class="ti ti-check ok"></i>Institutional order flow</li>
+        <li><i class="ti ti-check ok"></i>Real-time trade alerts</li>
+        <li><i class="ti ti-check ok"></i>Prop firm prep materials</li>
+        <li><i class="ti ti-check ok"></i>Monthly 1-on-1 voice call</li>
+        <li><i class="ti ti-check ok"></i>Advanced risk management</li>
+        <li><i class="ti ti-check ok"></i>Priority WhatsApp support</li>
+        <li><i class="ti ti-x no"></i>No weekly mentorship</li>
+      </ul>
+      <div class="tier-btn"><a href="https://wa.me/254734447870?text=Hello!%20I%20want%20to%20join%20the%20Pro%20Trader%20tier%20at%20Ksh%205%2C000%2Fmonth." target="_blank"><i class="ti ti-brand-whatsapp"></i> Enrol via WhatsApp</a></div>
+    </div>
+    <div class="tier">
+      <div class="tier-level">Tier 4</div>
+      <div class="tier-name">Mastery &amp; Mentorship</div>
+      <div style="display:flex;align-items:baseline;gap:4px;"><span class="tier-price">8,000</span><span class="tier-period"> Ksh/month</span></div>
+      <div class="tier-usd">≈ $61 USD &nbsp;·&nbsp; or Ksh 80,000/year</div>
+      <hr class="tier-hr">
+      <ul class="feat">
+        <li><i class="ti ti-check ok"></i>Everything in Pro</li>
+        <li><i class="ti ti-check ok"></i>Weekly 1-on-1 mentorship call</li>
+        <li><i class="ti ti-check ok"></i>Personal strategy development</li>
+        <li><i class="ti ti-check ok"></i>Trade review &amp; feedback report</li>
+        <li><i class="ti ti-check ok"></i>TradeMastery Certification</li>
+        <li><i class="ti ti-check ok"></i>Lifetime material access</li>
+        <li><i class="ti ti-check ok"></i>Direct mentor WhatsApp line</li>
+        <li><i class="ti ti-check ok"></i>Prop firm challenge support</li>
+      </ul>
+      <div class="tier-btn"><a href="https://wa.me/254734447870?text=Hello!%20I%20want%20to%20join%20the%20Mastery%20tier%20at%20Ksh%208%2C000%2Fmonth." target="_blank"><i class="ti ti-brand-whatsapp"></i> Enrol via WhatsApp</a></div>
+    </div>
+  </div>
+  <p style="text-align:center;margin-top:1.75rem;font-size:0.8rem;color:var(--muted);">💳 M-Pesa Paybill · Send Money · Bank transfer &nbsp;|&nbsp; 7-day refund on first month if unsatisfied</p>
+</section>
+
+<!-- SCHEDULE -->
+<section class="section">
+  <div class="center">
+    <div class="sec-label">Weekly routine</div>
+    <h2 class="sec-title">Know what to expect every day</h2>
+    <p class="sec-sub">Consistent, predictable delivery. You always know when the next lesson is coming.</p>
+  </div>
+  <div class="sched">
+    <div class="day"><div class="day-n">Monday</div><div class="day-t">PDF lesson + Sunday quiz answers posted</div><span class="day-badge db-lesson">Lesson</span></div>
+    <div class="day"><div class="day-n">Tuesday</div><div class="day-t">Market commentary on Telegram. Q&amp;A in group</div><span class="day-badge db-qa">Support</span></div>
+    <div class="day"><div class="day-n">Wednesday</div><div class="day-t">2nd PDF lesson + voice note recap sent</div><span class="day-badge db-lesson">Lesson</span></div>
+    <div class="day"><div class="day-n">Thursday</div><div class="day-t">Chart analysis post. Intermediate: trade alert</div><span class="day-badge db-qa">Content</span></div>
+    <div class="day"><div class="day-n">Friday</div><div class="day-t">Live session 7–8pm EAT. Replay sent after</div><span class="day-badge db-live">Live 🔴</span></div>
+    <div class="day"><div class="day-n">Saturday</div><div class="day-t">3rd PDF lesson drops. Free study day</div><span class="day-badge db-lesson">Lesson</span></div>
+    <div class="day"><div class="day-n">Sunday</div><div class="day-t">5-question quiz posted in group</div><span class="day-badge db-qa">Quiz</span></div>
+  </div>
+</section>
+
+<!-- JOIN -->
+<section class="section alt" id="join">
+  <div class="center">
+    <div class="sec-label">How to join</div>
+    <h2 class="sec-title">Get started in minutes</h2>
+    <p class="sec-sub">No registration forms. No waiting lists. Message us and you're in today.</p>
+  </div>
+  <div class="rec-grid">
+    <div class="rec-card"><i class="ti ti-brand-whatsapp rec-icon"></i><div class="rec-t">Step 1 — Message us on WhatsApp</div><div class="rec-d">Send "I want to join" to +254 751 655 936. Tell us your name and which tier you want. We reply within minutes.</div></div>
+    <div class="rec-card"><i class="ti ti-device-mobile rec-icon"></i><div class="rec-t">Step 2 — Pay via M-Pesa</div><div class="rec-d">We send you M-Pesa payment details. Pay Ksh 1,500 from your phone in under 30 seconds and send us confirmation.</div></div>
+    <div class="rec-card"><i class="ti ti-users rec-icon"></i><div class="rec-t">Step 3 — Join your WhatsApp group</div><div class="rec-d">We add you to your tier's private group within 1 hour of payment. Your first lesson lands Monday morning.</div></div>
+    <div class="rec-card"><i class="ti ti-gift rec-icon"></i><div class="rec-t">Refer a friend — earn Ksh 300</div><div class="rec-d">Refer one friend who joins and pays → get Ksh 300 off your next month. No cap on referrals.</div></div>
+    <div class="rec-card"><i class="ti ti-school rec-icon"></i><div class="rec-t">Campus &amp; chama groups</div><div class="rec-d">Enrolling 5+ from one university, office, or chama? Contact us for a group discount. Campus champions welcome.</div></div>
+    <div class="rec-card"><i class="ti ti-clock rec-icon"></i><div class="rec-t">New cohort every Monday</div><div class="rec-d">Join any time before Sunday — your Week 1 materials arrive Monday morning. Never miss the start.</div></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section">
+  <div class="center">
+    <div class="sec-label">Student stories</div>
+    <h2 class="sec-title">Real results from real Kenyans</h2>
+  </div>
+  <div class="testi-grid">
+    <div class="testi"><div class="stars">★★★★★</div><div class="testi-text">"I'd been watching YouTube for months and still didn't understand. TradeMastery sent me a PDF on Monday and by Friday I had drawn my first support levels properly. The structure changed everything."</div><div class="testi-auth"><div class="avatar">JK</div><div><div class="auth-name">James Kamau</div><div class="auth-loc">Nairobi — Intermediate student</div></div></div></div>
+    <div class="testi"><div class="stars">★★★★★</div><div class="testi-text">"Ksh 1,500 was the best money I spent this year. The voice notes are my favourite — I listen during my commute on matatu. No laptop, no problem. Just my earphones and phone."</div><div class="testi-auth"><div class="avatar">FW</div><div><div class="auth-name">Faith Wanjiku</div><div class="auth-loc">Nakuru — Beginner student</div></div></div></div>
+    <div class="testi"><div class="stars">★★★★★</div><div class="testi-text">"I upgraded from Beginner to Pro within 3 months. The Friday live sessions are incredibly valuable — seeing real charts analysed in real time is what made it click. Passed my FTMO challenge last month."</div><div class="testi-auth"><div class="avatar">BM</div><div><div class="auth-name">Brian Mutua</div><div class="auth-loc">Mombasa — Pro trader</div></div></div></div>
+    <div class="testi"><div class="stars">★★★★★</div><div class="testi-text">"My whole chama joined together — 8 of us. We got a group discount and now study together in the evenings. The Sunday quiz is competitive among us. Highly recommend bringing your friends."</div><div class="testi-auth"><div class="avatar">AN</div><div><div class="auth-name">Amina Ndirangu</div><div class="auth-loc">Kiambu — Chama group leader</div></div></div></div>
+    <div class="testi"><div class="stars">★★★★★</div><div class="testi-text">"The mentorship in Mastery tier is real. My mentor reviews my actual trades — not just theory. I went from losing 3 out of 4 trades to winning consistently. Discipline lessons alone are worth the price."</div><div class="testi-auth"><div class="avatar">DM</div><div><div class="auth-name">David Mwangi</div><div class="auth-loc">Eldoret — Mastery student</div></div></div></div>
+    <div class="testi"><div class="stars">★★★★★</div><div class="testi-text">"I'm a second-year student at UoN. Ksh 1,500 was manageable. Lessons come to my WhatsApp so I learn between classes. This is forex education for how we actually live in Kenya."</div><div class="testi-auth"><div class="avatar">SK</div><div><div class="auth-name">Sharon Kiptoo</div><div class="auth-loc">Nairobi — Campus student</div></div></div></div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section class="section alt">
+  <div class="center">
+    <div class="sec-label">What you need</div>
+    <h2 class="sec-title">Just your smartphone</h2>
+    <p class="sec-sub">We use tools you already have. No new apps to learn, no laptop required.</p>
+    <div class="tools-row">
+      <span class="tool-pill"><i class="ti ti-brand-whatsapp"></i> WhatsApp</span>
+      <span class="tool-pill"><i class="ti ti-brand-telegram"></i> Telegram</span>
+      <span class="tool-pill"><i class="ti ti-device-mobile"></i> MT4 / MT5 App</span>
+      <span class="tool-pill"><i class="ti ti-brand-zoom"></i> Zoom (live sessions)</span>
+      <span class="tool-pill"><i class="ti ti-file-text"></i> PDF viewer</span>
+      <span class="tool-pill"><i class="ti ti-currency-dollar"></i> M-Pesa</span>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="cta-sec">
+  <div class="sec-label">Ready to start?</div>
+  <h2 class="sec-title">Your trading journey<br><em style="color:var(--gold)">starts today</em></h2>
+  <p>Message us on WhatsApp right now. Pay Ksh 1,500 via M-Pesa. Your first lesson arrives Monday morning.</p>
+  <a href="https://wa.me/254734447870?text=Hello!%20I%20want%20to%20join%20TradeMastery%20Kenya.%20Please%20send%20me%20payment%20details%20for%20the%20Ksh%201%2C500%20Beginner%20Bootcamp." class="wa-big" target="_blank">
+    <i class="ti ti-brand-whatsapp" style="font-size:1.35rem"></i> Chat — +254 751 655 936
+  </a>
+  <p style="margin-top:1.1rem;font-size:0.82rem;color:var(--muted);">Available Monday – Saturday · 8am – 9pm EAT · We reply fast</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo" style="font-size:1.2rem;">Trade<em>Mastery</em> <span style="font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:400;color:var(--muted);margin-left:6px;">Kenya</span></div>
+  <div class="foot-legal">TradeMastery Kenya provides financial education only. Content does not constitute investment advice or trade signals. All trading involves risk of loss. You may lose some or all of your invested capital. Trade responsibly with funds you can afford to lose.</div>
+  <div style="font-size:0.75rem;color:var(--muted);">© 2025 TradeMastery Kenya</div>
+</footer>
+
+<!-- CHART.JS + ALL CHART LOGIC -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script>
+/* ── helpers ── */
+function seed(s){var x=Math.sin(s+1)*99999;return x-Math.floor(x);}
+function rnd(s){return seed(s);}
+
+function makeCandles(n,start,vol,d){
+  var arr=[];var p=start;
+  for(var i=0;i<n;i++){
+    var r=rnd(i*13+d);var r2=rnd(i*7+d+3);
+    var move=(r-0.47)*vol;
+    var o=p,c=p+move;
+    var h=Math.max(o,c)+r2*vol*0.38;
+    var l=Math.min(o,c)-rnd(i*19+d)*vol*0.3;
+    arr.push({o:+o.toFixed(5),h:+h.toFixed(5),l:+l.toFixed(5),c:+c.toFixed(5)});
+    p=c;
+  }
+  return arr;
+}
+function ema(data,period){
+  var k=2/(period+1);var res=[];var prev=data[0].c;
+  for(var i=0;i<data.length;i++){var v=i===0?prev:data[i].c*k+prev*(1-k);res.push(+v.toFixed(5));prev=v;}
+  return res;
+}
+function makeSparkline(n,start,vol,d){
+  var arr=[];var p=start;
+  for(var i=0;i<n;i++){arr.push(+(p+(rnd(i*11+d)-0.48)*vol).toFixed(4));p=arr[arr.length-1];}
+  return arr;
+}
+
+/* ── CANDLESTICK PLUGIN ── */
+var candlePlugin={
+  id:'cp',
+  afterDatasetsDraw:function(chart){
+    if(!chart._cdata)return;
+    var ctx=chart.ctx,xA=chart.scales.x,yA=chart.scales.y,cd=chart._cdata;
+    var bw=Math.max(4,Math.floor((xA.width/cd.length)*0.6));
+    cd.forEach(function(c,i){
+      var x=xA.getPixelForValue(i);
+      var yo=yA.getPixelForValue(c.o),yc=yA.getPixelForValue(c.c);
+      var yh=yA.getPixelForValue(c.h),yl=yA.getPixelForValue(c.l);
+      var bull=c.c>=c.o;
+      var col=bull?'rgba(74,222,128,0.85)':'rgba(248,113,113,0.85)';
+      ctx.strokeStyle=col;ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(x,yh);ctx.lineTo(x,yl);ctx.stroke();
+      var top=Math.min(yo,yc),ht=Math.max(Math.abs(yc-yo),1.5);
+      ctx.fillStyle=col;ctx.strokeStyle=col;
+      ctx.fillRect(x-bw/2,top,bw,ht);
+      ctx.strokeRect(x-bw/2,top,bw,ht);
+    });
+  }
+};
+var supportPlugin={
+  id:'sp',
+  beforeDatasetsDraw:function(chart){
+    if(!chart._cdata)return;
+    var ctx=chart.ctx,x=chart.scales.x,y=chart.scales.y;
+    var mn=Math.min.apply(null,chart._cdata.map(function(d){return d.l;}));
+    var y2=y.getPixelForValue(mn+0.0008),y1=y.getPixelForValue(mn+0.0021);
+    ctx.fillStyle='rgba(96,165,250,0.1)';
+    ctx.fillRect(x.left,y1,x.width,y2-y1);
+    ctx.strokeStyle='rgba(96,165,250,0.4)';ctx.lineWidth=1;ctx.setLineDash([5,4]);
+    ctx.beginPath();ctx.moveTo(x.left,y1);ctx.lineTo(x.right,y1);ctx.stroke();
+    ctx.setLineDash([]);
+  }
+};
+Chart.register(candlePlugin,supportPlugin);
+
+
+
+/* ── MAIN CANDLESTICK CHART ── */
+var euData=makeCandles(44,1.0785,0.0013,3);
+euData[euData.length-1].c=1.0842;
+var ema20=ema(euData,20),ema50=ema(euData,50);
+var euMin=Math.min.apply(null,euData.map(function(d){return d.l;}))-0.0006;
+var euMax=Math.max.apply(null,euData.map(function(d){return d.h;}))+0.0006;
+var mainCtx=document.getElementById('mainChart').getContext('2d');
+var mainChart=new Chart(mainCtx,{
+  type:'line',
+  data:{
+    labels:euData.map(function(d,i){return i%6===0?i+'m':''}),
+    datasets:[
+      {data:ema20,borderColor:'#60a5fa',borderWidth:1.5,pointRadius:0,tension:0.35,fill:false},
+      {data:ema50,borderColor:'#fbbf24',borderWidth:1.5,pointRadius:0,tension:0.35,fill:false}
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,animation:{duration:900},
+    plugins:{legend:{display:false},tooltip:{enabled:false}},
+    scales:{
+      x:{display:true,grid:{color:'rgba(255,255,255,0.05)',lineWidth:0.5},ticks:{color:'rgba(255,255,255,0.3)',font:{size:10},maxTicksLimit:7}},
+      y:{display:true,position:'right',min:euMin,max:euMax,grid:{color:'rgba(255,255,255,0.05)',lineWidth:0.5},ticks:{color:'rgba(255,255,255,0.3)',font:{size:10},maxTicksLimit:5}}
+    }
+  }
+});
+mainChart._cdata=euData;
+
+/* ── MINI CHARTS ── */
+function miniChart(id,data,mn,mx,upColor){
+  var ctx=document.getElementById(id).getContext('2d');
+  var c=new Chart(ctx,{
+    type:'line',
+    data:{labels:data.map(function(d,i){return i;}),datasets:[{data:data.map(function(d){return d.c;}),borderColor:upColor,borderWidth:1.5,pointRadius:0,tension:0.4,fill:false}]},
+    options:{responsive:true,maintainAspectRatio:false,animation:{duration:800},plugins:{legend:{display:false},tooltip:{enabled:false}},
+      scales:{x:{display:false},y:{display:true,position:'right',min:mn,max:mx,grid:{color:'rgba(255,255,255,0.04)',lineWidth:0.5},ticks:{color:'rgba(255,255,255,0.3)',font:{size:9},maxTicksLimit:3}}}}
+  });
+  c._cdata=data;return c;
+}
+var gbpData=makeCandles(28,1.2675,0.0016,7);gbpData[gbpData.length-1].c=1.2631;
+var xauData=makeCandles(28,2296,3.8,11);xauData[xauData.length-1].c=2318.4;
+var kesData=makeCandles(28,128.9,0.35,9);kesData[kesData.length-1].c=129.40;
+miniChart('gbpChart',gbpData,1.2595,1.2680,'rgba(248,113,113,0.9)');
+miniChart('xauChart',xauData,2290,2330,'rgba(74,222,128,0.9)');
+miniChart('kesChart',kesData,128.5,130.0,'rgba(74,222,128,0.9)');
+
+/* ── VOLUME CHART ── */
+var volData=euData.map(function(d,i){return{v:Math.round(28000+rnd(i*31)*65000),bull:d.c>=d.o};});
+new Chart(document.getElementById('volChart').getContext('2d'),{
+  type:'bar',
+  data:{
+    labels:volData.map(function(d,i){return i%6===0?i+'m':''}),
+    datasets:[{data:volData.map(function(d){return d.v;}),backgroundColor:volData.map(function(d){return d.bull?'rgba(74,222,128,0.5)':'rgba(248,113,113,0.5)';}),borderColor:volData.map(function(d){return d.bull?'rgba(74,222,128,0.8)':'rgba(248,113,113,0.8)';}),borderWidth:0.5,borderRadius:2}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,animation:{duration:800},plugins:{legend:{display:false},tooltip:{enabled:false}},
+    scales:{x:{display:true,grid:{color:'rgba(255,255,255,0.04)',lineWidth:0.5},ticks:{color:'rgba(255,255,255,0.3)',font:{size:9},maxTicksLimit:8}},
+      y:{display:true,position:'right',grid:{color:'rgba(255,255,255,0.04)',lineWidth:0.5},ticks:{color:'rgba(255,255,255,0.3)',font:{size:9},maxTicksLimit:3,callback:function(v){return Math.round(v/1000)+'K';}}}}}
+});
+
+/* ── LIVE ANIMATION: price tick + new candle every 3s ── */
+var liveBase=1.0842;
+var liveTick=0;
+var candleSeed=99;
+
+function nextPrice(base,spread){
+  candleSeed=(candleSeed*1664525+1013904223)&0xffffffff;
+  return +(base+(((candleSeed>>>0)/0xffffffff)-0.495)*spread*2).toFixed(4);
+}
+
+setInterval(function(){
+  liveTick++;
+
+  /* ── price wiggle ── */
+  var last=nextPrice(liveBase,0.0004);
+  liveBase=last;
+  var open=euData[euData.length-1].o;
+  var chg=+(((last-open)/open)*100).toFixed(2);
+
+  document.getElementById('main-price').textContent=last.toFixed(4);
+  document.getElementById('main-price').className='cph-price '+(chg>=0?'ch-up':'ch-dn');
+  document.getElementById('main-chg').textContent=(chg>=0?'+':'')+chg+'%';
+  document.getElementById('main-chg').className='cph-chg '+(chg>=0?'chg-up-bg':'chg-dn-bg');
+
+  /* update last candle close in data so candlePlugin draws it */
+  euData[euData.length-1].c=last;
+  euData[euData.length-1].h=Math.max(euData[euData.length-1].h,last);
+  euData[euData.length-1].l=Math.min(euData[euData.length-1].l,last);
+
+  /* ── every 3 ticks: close candle, push new one, shift left ── */
+  if(liveTick%3===0){
+    var prev=euData[euData.length-1];
+    var newOpen=prev.c;
+    var newClose=nextPrice(newOpen,0.0007);
+    var swing=Math.abs(newClose-newOpen);
+    var newCandle={
+      o:newOpen,
+      c:newClose,
+      h:Math.max(newOpen,newClose)+swing*0.4+Math.random()*0.0003,
+      l:Math.min(newOpen,newClose)-swing*0.4-Math.random()*0.0003
+    };
+    euData.shift();
+    euData.push(newCandle);
+    liveBase=newClose;
+
+    /* recalc EMAs */
+    var e20new=ema(euData,20);
+    var e50new=ema(euData,50);
+    mainChart.data.datasets[0].data=e20new;
+    mainChart.data.datasets[1].data=e50new;
+
+    /* update y-axis range */
+    var newMin=Math.min.apply(null,euData.map(function(d){return d.l;}))-0.0006;
+    var newMax=Math.max.apply(null,euData.map(function(d){return d.h;}))+0.0006;
+    mainChart.options.scales.y.min=newMin;
+    mainChart.options.scales.y.max=newMax;
+    mainChart._cdata=euData;
+  }
+
+  mainChart.update('none');
+},1000);
+
+/* ── TAB SWITCHING ── */
+function switchCurr(id,btn){
+  document.querySelectorAll('.cpanel').forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.ctab').forEach(function(b){b.classList.remove('on');});
+  document.getElementById('cp-'+id).classList.add('on');
+  btn.classList.add('on');
+}
+</script>
+</body>
+</html>
